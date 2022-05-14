@@ -40,7 +40,7 @@ How many measurements are larger than the previous measurement?
 file = open("Day1_Sonar_Sweep_measurements.txt", "r")
 ls = []
 for line in file:
-    numbers = line.strip()
+    numbers = int(line.strip())
     ls.append(numbers)
 
 # then we need to create a function that evaluates if the previous number is smaller than the present measure:

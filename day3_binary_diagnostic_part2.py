@@ -71,21 +71,7 @@ print("len: ",len(bin_list))
 ox_list = bin_list
 co2_list = bin_list
 for i in range(0, len(final_key)):
-    # if i == 0:
-    #     if final_key[i] >= (len(bin_list))/2:
-    #         for item in bin_list:
-    #             if item[i] == 1:
-    #                 ox_list.append(item)
-    #             else:
-    #                 co2_list.append(item)
-    #     else:
-    #         for item in bin_list:
-    #             if item[i] == 0:
-    #                 ox_list.append(item)
-    #             else:
-    #                 co2_list.append(item)
-    #
-    # if i>0:
+
         ox_key = [sum((elts)) for elts in zip(*ox_list)]
         co2_key = [sum((elts)) for elts in zip(*co2_list)]
         # print('i: ',i)
@@ -96,8 +82,12 @@ for i in range(0, len(final_key)):
         #print('co2_key: ',co2_key)
         #print('len co2_list', len(co2_list))
         #print(co2_list)
-        if ox_key[i] >= (len(ox_list))/2:
-            ox_list =[item for item in ox_list if item[i] == 1]
+        if ox_key[i] >= (len(ox_list))/2 and len(ox_list) != 1:
+
+            ox_list = list(filter(lambda item: item[i] == 1, ox_list))
+
+            #ox_list[:] =[item for item in ox_list if item[i] == 1]
+
             # print(ox_key[i], ">=", (len(ox_list))/2)
             # for item in ox_list:
             #     print(item)
@@ -106,8 +96,12 @@ for i in range(0, len(final_key)):
             #         #if len(ox_list) > 1:
 
 
-        else:
-            ox_list =[item for item in ox_list if item[i] == 0]
+        if ox_key[i] < (len(ox_list))/2 and len(ox_list) != 1:
+
+            ox_list = list(filter(lambda item: item[i] == 0, ox_list))
+
+            #ox_list[:] =[item for item in ox_list if item[i] == 0]
+
             # print(ox_key[i], "<", (len(ox_list))/2)
             # for item in ox_list:
             #     if item[i] == 1:
@@ -115,8 +109,13 @@ for i in range(0, len(final_key)):
             #         #if len(ox_list) > 1:
             #         ox_list.remove(item)
 
-        if co2_key[i] >= (len(co2_list))/2:
-            co2_list =[item for item in co2_list if item[i] == 0]
+
+        if co2_key[i] >= (len(co2_list))/2 and len(co2_list) != 1:
+
+            co2_list = list(filter(lambda item: item[i] == 0, co2_list))
+
+            #co2_list[:] =[item for item in co2_list if item[i] == 0]
+
             # print(co2_key[i], ">=", (len(co2_list))/2)
             # for item in co2_list:
             #     print(item)
@@ -125,8 +124,12 @@ for i in range(0, len(final_key)):
             #         #if len(co2_list) > 1:
 
 
-        else:
-            co2_list =[item for item in co2_list if item[i] == 1]
+        if co2_key[i] < (len(co2_list))/2 and len(co2_list) != 1:
+            co2_list = list(filter(lambda item: item[i] == 1, co2_list))
+
+            #co2_list[:] =[item for item in co2_list if item[i] == 1]
+
+
             # print(co2_key[i], "<", (len(co2_list))/2)
             # for item in co2_list:
             #     if item[i] == 1:
@@ -151,3 +154,25 @@ for i in range(0, len(final_key)):
 
 print("ox_list", ox_list)
 print("co2_list: ",co2_list)
+
+ox_list = ox_list[0]
+co2_list = co2_list[0]
+
+
+ox_str = str()
+for i in ox_list:
+    ox_str += str(i)
+print(ox_str)
+dec_ox = int(ox_str, 2)
+print(dec_ox)
+
+
+co2_str = str()
+for i in co2_list:
+    co2_str += str(i)
+print(co2_str)
+dec_co2 = int(co2_str, 2)
+print(dec_co2)
+
+
+print(dec_ox * dec_co2)

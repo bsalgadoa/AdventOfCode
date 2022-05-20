@@ -34,145 +34,75 @@ Use the binary numbers in your diagnostic report to calculate the oxygen generat
 
 # open the file and read each line
 hfile = open("day3_binary_diagnostic.txt", "r")
-#create an empty dict to store the sum of each position
-position_dict = dict()
 
-
-for line in hfile:
-    striped_line = line.strip()
-    # nest a loop to check in each position of the line and add the value to the dict.
-    for i in range(0, len(striped_line)):
-        if i in position_dict:
-            position_dict[i] = int(position_dict.get(i, 0)) + int(striped_line[i])
-        else: position_dict[i] = int(striped_line[i])
-
-#print(position_dict)
-#print(len(position_dict))
-
-
-hfile = open("day3_binary_diagnostic.txt", "r")
-
+# create an empty list to store the values of each line
 bin_list = []
 for line in hfile:
     bin_item = (line.strip())
     bin_list.append(list(bin_item))
-
-for sub_list in bin_list:
-    for i in range(0, len(sub_list)):
-        sub_list[i] = int(sub_list[i])
 #print (bin_list)
 
+# convert each digit in item into int instead of str with a nested loop
+for item in bin_list:
+    for i in range(0, len(item)):
+        item[i] = int(item[i])
+#print (bin_list)
 
+#now we sum the same index in each line ans store it into a key.
+# we'll use this to determine wich number is more frequent in each index.
+    #if the value in the key is less than half of the lenght, there are more zeros than ones, and vice-versa.
 final_key = [sum((elts)) for elts in zip(*bin_list)]
-print (final_key)
-print("len: ",len(bin_list))
+#print (final_key)
+#print("len: ",len(bin_list))
 
-
+# create to lists that start as the original, in order to exclude items and find the final one.
 ox_list = bin_list
 co2_list = bin_list
+
+# now we'll go the key an iterate to each position in order to determine what to do
 for i in range(0, len(final_key)):
-
+        # now we set a key for each list thath should be updated each time we remove items,
+        # in order to determine what to do in the next position (i)
         ox_key = [sum((elts)) for elts in zip(*ox_list)]
-        co2_key = [sum((elts)) for elts in zip(*co2_list)]
-        # print('i: ',i)
-        # print('ox_list: ',ox_list)
-        # print('len ox_list',len(ox_list))
-        # print('ox_key: ',ox_key)
-        # print('----------------------------------------------')
-        #print('co2_key: ',co2_key)
-        #print('len co2_list', len(co2_list))
-        #print(co2_list)
+        # now if 1 is dominant over 0, and we have more than one item in list:
         if ox_key[i] >= (len(ox_list))/2 and len(ox_list) != 1:
-
+            # we build a list that excludes 0
+            # which is building a list with items that only have "1" the position (i) we checked.
             ox_list = list(filter(lambda item: item[i] == 1, ox_list))
 
-            #ox_list[:] =[item for item in ox_list if item[i] == 1]
-
-            # print(ox_key[i], ">=", (len(ox_list))/2)
-            # for item in ox_list:
-            #     print(item)
-            #     if item[i] == 0:
-            #         print("i =", i,"item[i] =", item[i]," = 0")
-            #         #if len(ox_list) > 1:
-
-
+        # on the other hand if 0 is dominant over 1, and we have more than one item in list:
         if ox_key[i] < (len(ox_list))/2 and len(ox_list) != 1:
-
+            # we build a list that excludes 1
+            # which is building a list with items that only have "0" the position (i) we checked.
             ox_list = list(filter(lambda item: item[i] == 0, ox_list))
 
-            #ox_list[:] =[item for item in ox_list if item[i] == 0]
-
-            # print(ox_key[i], "<", (len(ox_list))/2)
-            # for item in ox_list:
-            #     if item[i] == 1:
-            #         print("i =", i,"item[i] =", item[i]," = 1")
-            #         #if len(ox_list) > 1:
-            #         ox_list.remove(item)
-
-
+        # here we the same for co2 rules:
+        co2_key = [sum((elts)) for elts in zip(*co2_list)]
         if co2_key[i] >= (len(co2_list))/2 and len(co2_list) != 1:
-
             co2_list = list(filter(lambda item: item[i] == 0, co2_list))
-
-            #co2_list[:] =[item for item in co2_list if item[i] == 0]
-
-            # print(co2_key[i], ">=", (len(co2_list))/2)
-            # for item in co2_list:
-            #     print(item)
-            #     if item[i] == 0:
-            #         print("i =", i,"item[i] =", item[i]," = 0")
-            #         #if len(co2_list) > 1:
-
-
         if co2_key[i] < (len(co2_list))/2 and len(co2_list) != 1:
             co2_list = list(filter(lambda item: item[i] == 1, co2_list))
-
-            #co2_list[:] =[item for item in co2_list if item[i] == 1]
-
-
-            # print(co2_key[i], "<", (len(co2_list))/2)
-            # for item in co2_list:
-            #     if item[i] == 1:
-            #         print("i =", i,"item[i] =", item[i]," = 1")
-            #         #if len(co2_list) > 1:
-            #         co2_list.remove(item)
-
-
-
-
-
-
-#
-#         Se o proximo item for >= total 2 (ou seja 1 predomina ou é empate) :
-#             temos que ver item a item da lista ox e cortar 0
-#             temos que ir irem a item da lisata co2 e cortar o 1
-#
-#         Se o proximo item < total/2 (ou seja o 0 predomina):
-#             temos que ver item a item da lista ox e cortar 1
-# #             temos que ir irem a item da lisata co2 e cortar o 0
-#
 
 print("ox_list", ox_list)
 print("co2_list: ",co2_list)
 
-ox_list = ox_list[0]
-co2_list = co2_list[0]
-
-
+# the final binary item for every list is found.
+# we need to convert it to an string so we can then convert the binary to decimal
 ox_str = str()
-for i in ox_list:
+for i in ox_list[0]:
     ox_str += str(i)
 print(ox_str)
+# convert the string into decimal integer
 dec_ox = int(ox_str, 2)
 print(dec_ox)
 
-
+# the same for co2
 co2_str = str()
-for i in co2_list:
+for i in co2_list[0]:
     co2_str += str(i)
 print(co2_str)
 dec_co2 = int(co2_str, 2)
 print(dec_co2)
 
-
+# now that we have the decimal integer of each list, we can multiply them and find the answer:
 print(dec_ox * dec_co2)

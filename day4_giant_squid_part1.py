@@ -64,4 +64,33 @@ To guarantee victory against the giant squid, figure out which board will win fi
             # If not, it means that that line is a bingo:
                 # store that line and the card id in a winner list
     # If winner list is not empty:
-        #return the winner(S)
+
+import numpy as np
+
+with open('day4_giant_squid.txt', 'r') as fhand:
+    all_numbers = list(map(int, fhand.readline().split(',')))
+    #print(all_numbers)
+
+
+    boards = [np.mat(board.replace("\n", ";")) for board in fhand.read()[1:-1].split("\n\n")]
+    ##boards = (line in fhand.read()[1:-1].split("\n\n"))
+    print (boards)
+
+
+
+
+# with open('day4_giant_squid.txt') as file:
+#     lines = file.readlines()
+#     lines = [line.rstrip() for line in lines]
+
+#print('lines: ',lines)
+    # cards = re.findall('\n\n[0-9]+\n\n', line)
+
+extracted_numbers = list()
+winers_card = list()
+
+
+
+
+# while winers_card is "":
+#    for extraction in extracted_numbers:

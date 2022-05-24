@@ -61,36 +61,100 @@ To guarantee victory against the giant squid, figure out which board will win fi
         # Check every line:
             # If there's any number that is not in the numbers list:
                 # move to next line.
-            # If not, it means that that line is a bingo:
+            # If not, store the count of numbers in list and if its 5, it means that that line is a bingo:
                 # store that line and the card id in a winner list
-    # If winner list is not empty:
+    # If winner list is not empty, stop checking and return row and card.
 
-import numpy as np
+#import numpy as np
 
 with open('day4_giant_squid.txt', 'r') as fhand:
     all_numbers = list(map(int, fhand.readline().split(',')))
     #print(all_numbers)
 
-
-    boards = [np.mat(board.replace("\n", ";")) for board in fhand.read()[1:-1].split("\n\n")]
+    ## solution through matrix
+    #boards = [np.mat(board.replace("\n", ";")) for board in fhand.read()[1:-1].split("\n\n")]
     ##boards = (line in fhand.read()[1:-1].split("\n\n"))
-    print (boards)
+    #print (boards)
+
+    # creates a list of every line
+    boards = []
+    for line in fhand:
+        boards.append(list(map(int, line.split())))
+    # remove blanck lines
+    boards = list(filter(lambda item: item != [], boards))
+    #print (boards)
+
+    # create a list of every card
+    boards_list = list()
+    board_size = 5
+    for i in range(0, len(boards), board_size):
+        boards_list.append(boards[i:i+board_size])
+
+#print(boards_list)
 
 
-
-
-# with open('day4_giant_squid.txt') as file:
-#     lines = file.readlines()
-#     lines = [line.rstrip() for line in lines]
-
-#print('lines: ',lines)
-    # cards = re.findall('\n\n[0-9]+\n\n', line)
 
 extracted_numbers = list()
-winers_card = list()
+winners_board = list()
+winners_row = list()
 
+for number in all_numbers:
+    # add it to extracted_numbers list
+    extracted_numbers.append(number)
 
+    # for each extraction
+    for extraction in extracted_numbers:
+        # go to every board in board list
+        for board in boards_list:
+            # then to every row in each board
+            for row in board:
+                # set the counter to 0
+                count = 0
+                # for every number in row:
+                for i in row:
+                    # if that number is in the extracted_numbers list:
+                    if i in extracted_numbers:
+                        # add 1 to count
+                        count += 1
+                        # if the counter is at 5 we have a bingo and must store the row and the board and break all the loops
+                        if count == 5:
+                            winners_board.append(board)
+                            winners_row.append(row)
+                            break
+                        else:
+                            continue
+                    else:
+                        continue
+                    break
+                else:
+                    continue
+                break
+            else:
+                continue
+            break
+        else:
+            continue
+        break
+    else:
+        continue
+    break
 
+# we clean the winners_board format
+winners_board = winners_board[0]
 
-# while winers_card is "":
-#    for extraction in extracted_numbers:
+print('winner row',winners_row)
+print('winner board',winners_board)
+print('extracted_numbers ', extracted_numbers)
+
+# now we need to know the unmarked numbers of the winning card to find the answer
+unmarked_numbers = list()
+for row in winners_board:
+    for number in row:
+        if number not in extracted_numbers:
+            unmarked_numbers.append(number)
+
+print('unmarked_numbers', unmarked_numbers)
+
+# the answer is the unmarked_numbers times the last extraction
+answer = sum(unmarked_numbers)*(extracted_numbers[-1])
+print(answer)

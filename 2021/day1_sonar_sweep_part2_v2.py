@@ -42,17 +42,14 @@ for line in file:
     numbers = int(line.strip())
     ls.append(numbers)
 
-def larger_than_previous (measurement_list):
+def larger_than_previous (data):
     counter = 0
-    y = 0
-    for i in list(range(3, len(measurement_list))):
-        y +=1
-        a = (measurement_list[i-1] + measurement_list[i-2] + measurement_list[i-3])
-        #print (a)
-        b = (measurement_list[i] + measurement_list[i-1] + measurement_list[i-2])
-        #print (b)
-        #print ('---------')
-        if a < b :
+    for a,b in [(i,i+3) for i in range(len(data)-3)]:
+        #print(a,b)
+        #print (data[a], data[b])
+        #print (data[a] - data[b])
+        #print('---')
+        if data[a] < data[b]:
             counter += 1
 
     return counter
@@ -60,5 +57,5 @@ def larger_than_previous (measurement_list):
 #print(larger_than_previous([199,200,208,210,200,207,240,269,260,263]))
 
 
-measurement_list = ls
-print(larger_than_previous(measurement_list))
+data = ls
+print(larger_than_previous(data))

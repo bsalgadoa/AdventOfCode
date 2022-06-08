@@ -58,11 +58,11 @@ def solution():
 
         coordinates = list()
         for line in f:
-            x1, y1, x2, y2 = list(map(int, line.replace(" -> ", ",").split(",")))
+            x1, y1, x2, y2 = map(int, line.replace(" -> ", ",").split(","))
             if x1 == x2:
                 for i in range(min(y1, y2), max(y1, y2)+1):
                     coordinates.append((x1, i))
-            if y1 ==y2:
+            if y1 == y2:
                 for i in range(min(x1, x2), max(x1, x2)+1):
                     coordinates.append((i, y1))
 
@@ -71,3 +71,5 @@ def solution():
 
 if __name__ == '__main__':
     print(solution())
+    import timeit as t
+    print(t.timeit(solution, number=100), end="")

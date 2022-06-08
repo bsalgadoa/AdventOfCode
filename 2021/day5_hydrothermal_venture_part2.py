@@ -27,29 +27,17 @@ Your puzzle answer was 22116.
 
 from collections import Counter
 
-def solution():
+def ba_solution():
     with open("005.txt", 'r') as f:
         # list of 2D lines.
-        lines = list()
-        for line in f:
-            x1, y1, x2, y2 = list(map(int, line.replace(" -> ", ",").split(",")))
-            #if x1 == x2 or y1==y2: Part 1 filter.
-            #every line needs at least 2 points to be a line.
-            lines.append((x1, y1, x2, y2))
-
-        # list to add and save all the point coordinates that make each line.
         coordinates = list()
-
-        for line in lines:
-            # every number in line it's a coordinate.
-            x1,y1,x2,y2 = line[0],line[1],line[2],line[3]
-
-            # vertical lines
+        for line in f:
+            x1, y1, x2, y2 = map(int, line.replace(" -> ", ",").split(","))
+            # Vertical line
             if x1 == x2:
                 for i in range(min(y1, y2), max(y1, y2)+1):
                     coordinates.append((x1, i))
-
-            # horizontal lines
+            # horizontal ine
             if y1 == y2:
                 for i in range(min(x1, x2), max(x1, x2)+1):
                     coordinates.append((i, y1))
@@ -77,4 +65,6 @@ def solution():
 
 
 if __name__ == '__main__':
-    print(solution())
+    #print(solution())
+    import timeit as t
+    print(t.timeit(ba_solution, number=100), end="")

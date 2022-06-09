@@ -49,30 +49,40 @@ In this example, after 18 days, there are a total of 26 fish. After 80 days, the
 
 Find a way to simulate lanternfish. How many lanternfish would there be after 80 days?
 '''
+from collections import defaultdict, Counter
 
+#
+# def solution_1():
+#     with open("006.txt", 'r') as f:
+#         fish = defaultdict(lambda: 0)
+#         for i in f.readline().strip().split(','):
+#             fish[i] +=1
+#
+#         return dict(fish)
 
-def solution():
+def solution_2():
     with open("006.txt", 'r') as f:
         numbers = [int(i) for i in f.readline().strip().split(',')]
+        #print(numbers)
+        # create a list with the count of fish per day.
+        fish = [numbers.count(i) for i in range(9)]
+        #print(fish)
 
-        fish_pop = len(numbers)
-        for a in range(10):
-            fish_pop = (fish_pop * 2)
-        return fish_pop
+        for day in range(256):
+            # the fish at 0 becomes 6
+            #print(day, fish)
+            fish[7] += fish[0]
+            #print(fish)
+            # the fish at 0 will generate the same amount at 8, so just rotate the list.
+            fish.append(fish.pop(0))
+            #print(fish)
+            #print('-----')
 
-
-    # for day in range(256):
-    #     print('day: ',day)
-    #     for i in range(0,len(numbers)):
-    #         if numbers[i] == 0:
-    #             numbers[i] = 6
-    #             numbers.append(8)
-    #         else:
-    #             numbers[i] = numbers[i] - 1
-    #             #print (numbers)
-    # return len(numbers)
-
-
+        return sum(fish)
 
 if __name__ == '__main__':
-    print(solution())
+    import timeit as t
+    #print(t.timeit(solution_1, number=100))
+    #print(solution_1())
+    #print(t.timeit(solution_2, number=100))
+    print(solution_2())

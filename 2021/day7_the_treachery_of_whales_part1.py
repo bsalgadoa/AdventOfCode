@@ -34,6 +34,7 @@ Determine the horizontal position that the crabs can align to using the least fu
 
 '''
 import statistics
+import numpy as np
 from collections import Counter
 
 def solution():
@@ -41,15 +42,12 @@ def solution():
         numbers = [int(i) for i in f.readline().strip().split(',')]
         #print ('numbers', numbers)
 
-        #better_position = 10
-        better_position = [int(k) for k, v in Counter(numbers).items() if v == max(Counter(numbers).values())][0]
-
+        #better_position is the median
+        better_position = np.median(numbers)
         fuel_cost = sum(abs(i-better_position) for i in numbers)
 
         print('Better Position', better_position)
         print('Fuel Cost ', fuel_cost)
-        #print(Counter(numbers))
-
     #return
 
 

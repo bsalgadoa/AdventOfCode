@@ -78,17 +78,15 @@ def solution():
 
             for digit in output_digits:
                 if int(len(digit)) in lenghts.keys():
-
-                    line_counter += str((lenghts[len(digit)]))
-                    #print('counter: ', counter)
+        	           line_counter += str((lenghts[len(digit)]))
+        	                #print('counter: ', counter)
 
                 else:
-                     for k in set(unique_signal.keys()):
-                         if set(digit) >= set(k):
-                             line_counter += str(unique_signal[k])
+                    for k in set(unique_signal.keys()):
+                        if set(digit) >= set(k) and len(set(digit)) == len(set(k)):
+                            line_counter += str(unique_signal[k])
 
-            counter += int(line_counter)
-
+        counter += int(line_counter)
 
     return counter
 

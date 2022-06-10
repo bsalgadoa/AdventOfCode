@@ -73,15 +73,35 @@ In the output values, how many times do digits 1, 4, 7, or 8 appear?
 '''
 
 
-def solution():
+def solution_1():
     with open("008.txt", 'r') as f:
 
         counter = 0
         lenghts = {'len1': 2, 'len4': 4, 'len7': 3, 'len8': 7}
 
         for line in f:
-            #t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, f1, f2, f3, f4 = list(map(str, line.replace(" | ", " ").split(" ")))
+            t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, f1, f2, f3, f4 = list(map(str, line.strip().replace(" | ", " ").split(" ")))
             #print (t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, f1, f2, f3, f4)
+
+            for digit in f1, f2, f3, f4:
+                if int(len(digit)) in lenghts.values():
+                    counter += 1
+                    #print('counter: ', counter)
+        return counter
+
+
+'''
+---------------------------
+'''
+
+
+def solution_2():
+    with open("008.txt", 'r') as f:
+
+        counter = 0
+        lenghts = {'len1': 2, 'len4': 4, 'len7': 3, 'len8': 7}
+
+        for line in f:
 
             output_digits = list(map(str, line.strip().replace(" | ", " ").split(" ")))[-4:]
             #print(output_digits[-4:])
@@ -95,6 +115,14 @@ def solution():
 
         return counter
 
+
+
 if __name__ == '__main__':
     #solution()
-    print("solution", solution())
+    import timeit as t
+
+    print("solution_1:", solution_1())
+    print(t.timeit(solution_1, number=100))
+
+    print("solution_2:", solution_2())
+    print(t.timeit(solution_2, number=100))

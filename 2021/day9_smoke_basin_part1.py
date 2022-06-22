@@ -34,156 +34,115 @@ def solution():
         for line in f:
             L.append(list((line.strip())))
 
-        #neste ponto temos um lista L em cada item é uma linha.
-        #print (L)
+        # at this point we have a list L where each item is a sublist of each line in file
 
-        # agora vamos ver linha a linha ou item a item.
+        # now we'll check line by line or item by item:
         for n in range(0, len(L)):
             l = L[n]
-            #print (l)
-            print ('line :', n)
 
-            # --------------------
-            # em todas as linhas excepto primeiro e última.
+            # all lines/items except the first and the last ones.
             if n > 0 and n < len(L)-1:
-                #print ('line : ', n)
+
+                # i = 0
+                # while i < len(l): --->> the point was: if we just added a lower point to the counter, we don't need to check the next element because it wont be smaller, so we can just skip i+= 2.
+                # howerver this while aproach is 20% slower than the first one.
+
                 for i in range(0, len(l)):
-                    print (i)
-                    # se não for o primeiro nem o ultimo elemento
+
+                    # for all the elements except the first  and the last one:
                     if i > 0 and i < len(l)-1:
-                        print ('midle numbers')
-                        # vamos comparar com os vizinhos na mesma linha :
+
+                        # we'll check it against its neighbors on the same line:
                         if l[i] < l[i-1] and l[i] < l[i+1]:
-                            #print ('i ', i)
-                            #print ('l[i] ', l[i])
-                            #print ('l[i-1] ', l[i-1])
-                            #print ('l[i+1] ', l[i+1])
 
-                            # e, se for menor, comparamos com a linha acima e abaixo:
+                            # and if it's smaller, we then check it against its neighbors above and below:
                             if l[i] < L[n-1][i] and l[i] < L[n+1][i]:
-                                #print ('i ', i)
-                                #print ('l[i] ', l[i])
-                                #print ('L[n-1][i] ', L[n-1][i])
-                                #print ('L[n+1][i] ', L[n+1][i])
 
-                                #print('counter :', counter)
-                                #print ('l[i] :', l[i])
+                                # if so, we add it to counter + 1
                                 counter += int(l[i]) + 1
-                                #print('counter += int(l[i]) + 1 : ', counter)
+                                #i += 2
 
-                    # se for o primeiro elemento:
+                    # if it's the first one in the line/item:
                     elif i == 0:
-                        print ("elif")
-                        # compara com o elemento seguinte e, se for menor, com o elemento na posição acima e abaixo.
-                        if l[i] < l[i+1]:
-                            # e, se for menor, comparamos com a linha acima e abaixo:
-                            if l[i] < L[n-1][i] and l[i] < L[n+1][i]:
-                                counter += int(l[i]) + 1
 
-                    # se for o ultimo elemento:
+                        # we just compare it to the following one:
+                        if l[i] < l[i+1]:
+
+                            # and again if it's smaller, we then check it against its neighbors above and below:
+                            if l[i] < L[n-1][i] and l[i] < L[n+1][i]:
+
+                                # if so, we add it to counter + 1
+                                counter += int(l[i]) + 1
+                                #i += 2
+
+                    # now we only have the last element to check:
                     #if i == len(l)-1:
                     else:
-                        print ("else")
-                        # compara com o elemento anterior e, se for menor, com o elemento na posição acima e abaixo.
+
+                        # at the last one we just have to check it against its previous one:
                         if l[i] < l[i-1]:
-                            # e, se for menor, comparamos com a linha acima e abaixo:
+                            # and again if it's smaller, we then check it against its neighbors above and below:
                             if l[i] < L[n-1][i] and l[i] < L[n+1][i]:
+
+                                # if so, we add it to counter + 1
                                 counter += int(l[i]) + 1
+                                #i += 2
+
+                    #i += 1
 
 
-
-            # ------------------------------------------------------------------
-            # primeira linha / primeiro item em L.
-
+            # Now we'll check the first line: (the first line purposely apears at this point)
             elif n == 0:
-                #print ('first line : ', n)
-                # para cada elemento da primeira linha:
+
+                # for every element in first line:
                 for i in range(0, len(l)):
 
-                    # se não for o primeiro nem o ultimo elemento
+                    # if it's not the first or the last element:
                     if i > 0 and i < len(l)-1:
-                        # vamos comparar com os vizinhos na mesma linha :
+                        # we check it against its neighbors:
                         if l[i] < l[i-1] and l[i] < l[i+1]:
-
-                            # e, se for menor, comparamos com a linha abaixo:
+                            # if it's smaller, we then check it against the element below:
                             if l[i] < L[1][i]:
                                 counter += int(l[i]) + 1
-                                print(l[i])
 
-                    # se for o primeiro elemento:
+
+                    # if it's the first:
                     elif i == 0:
-                        # compara com o elemento seguinte e, se for menor, com o elemento na posição abaixo.
+                        # we just compare it to the following one and the one below:
                         if l[i] < l[i+1] and l[i] < L[1][0]:
-                            # então, acordo com as instruções, se for menor que os vizinhos, temos que guardar este numero e adicionar 1
                             counter += int(l[i]) + 1
-                            print(l[i])
 
-                    # se for o ultimo elemento:
+                    # the last element in first line:
                     #if i == len(L)-1:
                     else:
-                        # compara com o elemento anterior e, se for menor, com o elemento na posição abaixo.
                         if l[i] < l[i-1] and l[i] < L[1][-1]:
-                            # então, acordo com as instruções, se for menor que os vizinhos, temos que guardar este numero e adicionar 1
                             counter += int(l[i]) + 1
-                            print(l[i])
 
-
-
-            # ------------------------------------------------------------------
-            # ultima linha / ultimo item em L.
+            # Last line/item in L, we repeat the same principle above.
             #if n == len(L)-1:
             else:
-                #print ('last line : ', n)
-                # para cada elemento da ultima linha:
                 for i in range(len(l)):
-                    #print('i ', i)
-                    #print('n ', n)
-                    #print('len l ', len(l))
 
-                    # se não for o primeiro nem o ultimo elemento
                     if i > 0 and i < len(l)-1:
-                        # vamos comparar com os vizinhos na mesma linha :
                         if l[i] < l[i-1] and l[i] < l[i+1]:
-                            #print ('i ', i)
-                            #print ('l[i] ', l[i])
-                            #print ('l[i-1] ', l[i-1])
-                            #print ('l[i+1] ', l[i+1])
-                            # e, se for menor, comparamos com a linha acima:
                             if l[i] < L[-2][i]:
                                 counter += int(l[i]) + 1
-                                print(l[i])
 
-                    # se for o primeiro elemento:
                     elif i == 0:
-                        # compara com o elemento seguinte e, se for menor, com o elemento na posição abaixo.
                         if l[i] < l[i+1] and l[i] < L[-2][0]:
-                            # então, acordo com as instruções, se for menor que os vizinhos, temos que guardar este numero e adicionar 1
                             counter += int(l[i]) + 1
-                            print(l[i])
 
-                    # se for o ultimo elemento:
-                    #elif i == len(L)-1:
                     else:
-                        # compara com o elemento anterior e, se for menor, com o elemento na posição acima.
                         if l[i] < l[i-1] and l[i] < L[-2][-1]:
-                            # então, acordo com as instruções, se for menor que os vizinhos, temos que guardar este numero e adicionar 1
                             counter += int(l[i]) + 1
-                            print(l[i])
-
-
-
-            print ("counter :", counter)
-            print ('-----------------')
-
-
-
+        
     return counter
 
 
 
 if __name__ == '__main__':
-    solution()
-    #import timeit as t
+    #solution()
+    import timeit as t
 
-    #print("solution:", solution())
-    #print(t.timeit(solution, number=100))
+    print("solution:", solution())
+    print(t.timeit(solution, number=100))

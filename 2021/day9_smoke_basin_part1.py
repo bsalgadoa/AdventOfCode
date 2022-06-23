@@ -25,6 +25,13 @@ Your puzzle answer was 600.
 
 '''
 
+## To solve this we have to find the the lowest numbers
+# we'll have 3 different cases: first line, last line and all the others.
+# in each line we'll also have 3 cases: first element, last element and all the others in the middle.
+# for every one of these we'll have to check different "neighbors"
+# we set the rules for each and
+# everytime we found a low point, just add it to a counter + 1.
+# return the counter.
 
 def solution():
     with open("009.txt", 'r') as f:
@@ -135,14 +142,11 @@ def solution():
                     else:
                         if l[i] < l[i-1] and l[i] < L[-2][-1]:
                             counter += int(l[i]) + 1
-        
+
     return counter
-
-
 
 if __name__ == '__main__':
     #solution()
-    import timeit as t
-
+    #import timeit as t
     print("solution:", solution())
-    print(t.timeit(solution, number=100))
+    #print(t.timeit(solution, number=100))

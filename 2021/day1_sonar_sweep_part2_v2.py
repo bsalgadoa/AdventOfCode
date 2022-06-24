@@ -36,7 +36,7 @@ Consider sums of a three-measurement sliding window. How many sums are larger th
 
 '''
 
-## cleaner version after receiving kiwi's inputs.
+### cleaner version after receiving kiwi's inputs.
 
 file = open("Day1_Sonar_Sweep_measurements.txt", "r")
 ls = []

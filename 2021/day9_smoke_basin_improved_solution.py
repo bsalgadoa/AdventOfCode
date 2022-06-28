@@ -135,9 +135,8 @@ def solution():
         part1_solution = sum(lowest_points) + len(lowest_points)
         print('Part 1 solution: ',part1_solution)
 
-        top3_areas = sorted(clusters_areas)[-3:]
-        part2_solution = top3_areas[0]*top3_areas[1]*top3_areas[2]
-        print('Part 2 solution: ',part2_solution)
+        a, b, c = sorted(clusters_areas)[-3:]
+        print (f'Part 2 solution: {a*b*c}')
 
 
     def cluster_fill(grid, i , j, checked_position = 'X'):

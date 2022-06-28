@@ -96,7 +96,6 @@ Your puzzle answer was 987840.
 # 4 - calculate and return the solution based on lists set at #2.
 
 from queue import Queue
-import numpy as np
 
 def solution():
 
@@ -136,7 +135,8 @@ def solution():
         part1_solution = sum(lowest_points) + len(lowest_points)
         print('Part 1 solution: ',part1_solution)
 
-        part2_solution = np.prod(np.sort(clusters_areas)[-3:])
+        top3_areas = sorted(clusters_areas)[-3:]
+        part2_solution = top3_areas[0]*top3_areas[1]*top3_areas[2]
         print('Part 2 solution: ',part2_solution)
 
 

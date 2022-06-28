@@ -115,10 +115,8 @@ def solution():
     def flood_fill(grid):
         ## set the grid size/limits:
         # number of rows
-        global n
         n = len(grid)
         #number of columns
-        global m
         m = len(grid[0])
         #print (np.array(grid))
 
@@ -143,9 +141,8 @@ def solution():
 
 
     def cluster_fill(grid, i , j, checked_position = 'X'):
-        ## don't need to set n, m again, because they were previous declared as global
-        # n = len(grid)
-        # m = len(grid[0])
+        n = len(grid)
+        m = len(grid[0])
 
         current_position = grid[i][j]
         # set the lowest point as the current_position

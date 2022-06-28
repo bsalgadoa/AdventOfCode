@@ -97,16 +97,15 @@ def solution():
                         stack.append(brace)
                 else:
                     # if stack not empty and
-                    # if top of stack is the "opening brace" for the brace we are checking
-                    if stack and stack[-1] == brace_pairs[brace]:
-                        # we remove the top
-                        stack.pop()
-
-                    # otherwise we are in a corrupted line so
-                    # we empty the stack and move on to the next line.
-                    else:
+                    # if top of stack is diferent from "opening brace" of the brace we are checking:
+                    if stack and stack.pop() != brace_pairs[brace]:
+                        # We are in a corrupted line so
+                        # we empty the stack and move on to the next line.
                         stack = list()
                         break
+
+                    ## note: by checking stack.pop() in the if statement, we are "poping" the top of the stack
+                    ## and that's why it also works when brace that we are checkig matches the last one.
 
             # after the loop, if the stack is not empty, the line is incomplete.
             # and we calculate the line score accordingly with the rules.

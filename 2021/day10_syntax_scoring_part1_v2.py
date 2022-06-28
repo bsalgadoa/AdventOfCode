@@ -98,16 +98,15 @@ def solution():
                         stack.append(brace)
                 else:
                     # if stack not empty and
-                    # if top of stack is the "opening brace" for the brace we are checking
-                    if stack and stack[-1] == brace_pairs[brace]:
-                        # we remove the top
-                        stack.pop()
-
-                    # otherwise we get the correspondent points for the invalid brace
-                    # and move on to the next line.
-                    else:
+                    # if top of stack is diferent from "opening brace" of the brace we are checking:
+                    if stack and stack.pop() != brace_pairs[brace]:
+                        # we get the correspondent points for the invalid brace
+                        # and move on to the next line.
                         counter += points[brace]
                         break
+
+                    ## note: by checking stack.pop() in the if statement, we are "poping" the top of the stack
+                    ## and that's why it also works when brace that we are checkig matches the last one.
 
         return counter
 

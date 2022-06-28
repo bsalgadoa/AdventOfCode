@@ -124,7 +124,7 @@ def solution():
             # start going column by column
             for j in range(m):
                 # if the point that we are is not a limit or a previous visited one
-                if not grid[i][j] in [9,'X']:
+                if grid[i][j] not in [9,'X']:
                     # we are in a new cluster and start to fill it
                     cluster_fill(grid, i, j, 'X')
 

@@ -99,8 +99,6 @@ Your puzzle answer was 3230.
 
 from collections import defaultdict
 
-total_paths = 0
-
 def solution():
 
     with open("012.txt", 'r') as f:
@@ -110,27 +108,28 @@ def solution():
 
             if a != "end" and b != "start": nodes_dict[a].append(b)
             if b != "end" and a != "start": nodes_dict[b].append(a)
-            #print (nodes_dict)
+
+        #print (nodes_dict)
 
     def paths(node = "start", visited_nodes = set()):
 
         node_conections = nodes_dict[node]
 
+        total_paths = 0
+
         for node in node_conections:
 
             if node == "end":
-                global total_paths
-                total_paths +=1
+                total_paths += 1
                 continue
 
             if node in visited_nodes:
                 continue
-
             # add the node to the visited nodes list
             visited_nodes.add(node.lower())
 
             # if the node is not the end, keep looking for one.
-            paths(node, visited_nodes)
+            total_paths += paths(node, visited_nodes)
 
             # remove the node to the visited nodes list
             visited_nodes.discard(node)
@@ -138,7 +137,6 @@ def solution():
         return total_paths
 
     return paths("start")
-
 
 if __name__ == '__main__':
     #solution()

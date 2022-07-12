@@ -126,7 +126,8 @@ def solution():
             if node in visited_nodes:
                 continue
             # add the node to the visited nodes list
-            visited_nodes.add(node.lower())
+            if node.islower():
+                visited_nodes.add(node)
 
             # if the node is not the end, keep looking for one.
             total_paths += paths(node, visited_nodes)

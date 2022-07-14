@@ -45,6 +45,8 @@ The slightly larger example above now has 103 paths through it, and the even lar
 
 Given these new rules, how many paths through this cave system are there?
 
+Your puzzle answer was 83475.
+
 '''
 
 from collections import defaultdict
@@ -63,10 +65,9 @@ def solution():
             if b != "end" and a != "start": node_conections[b].append(a)
             #print (node_conections)
 
-        def paths(node = 'start', allowed_visits = 1):
+        def paths(node = 'start', allowed_visits = 2):
 
             total_paths = 0
-
             possible_paths = Queue()
 
             for node_conection in node_conections[node]:
@@ -75,7 +76,6 @@ def solution():
             while not possible_paths.empty():
 
                 path = possible_paths.get()
-
                 last_node = path[-1]
 
                 for node_conection in node_conections[last_node]:
@@ -85,19 +85,32 @@ def solution():
                         #print(path)
 
                     else:
-                        if ((node_conection.islower() and path.count(node_conection) < allowed_visits)) or node_conection.isupper():
+                        if (node_conection.islower() and path.count(node_conection) < allowed_visits) or node_conection.isupper():
 
                             path_copy = path[:]
                             path_copy.append(node_conection)
-                            possible_paths.put(path_copy)
+
+                            # now before we add the copy to the Queue
+                            # we'll check if there are more than a small cave visited_twice, if not, we added to Queue
+                            # note ## is an alternative that keeps track of what small caves were already checked
+
+                            visited_twice = 0
+                            ##checked_nodes = list()
+                            for node in path_copy:
+                                if node.islower() and (path_copy.count(node) == 2):
+                                ##if node not in checked_nodes and node.islower() and (path_copy.count(node) == 2):
+                                    visited_twice += 1
+                                    ##checked_nodes.append(node)
+
+                            if visited_twice/2 < 2 :
+                            ##if visited_twice < 2 :
+                                possible_paths.put(path_copy)
 
             return total_paths
-
     return paths()
-
 
 if __name__ == '__main__':
     #solution()
     #import timeit as t
-    #print(t.timeit(solution, number=1_000))
+    #print(t.timeit(solution, number=1))
     print("solution:", solution())

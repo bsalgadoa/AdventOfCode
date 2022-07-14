@@ -78,16 +78,11 @@ def solution():
 
                 last_node = path[-1]
 
-                # just in case there's a: start-end.
-                if node_conection == "end":
-                    total_paths += 1
-                    continue
-
                 for node_conection in node_conections[last_node]:
 
                     if node_conection == "end":
                         total_paths += 1
-                        #print(element)
+                        #print(path)
 
                     else:
                         if ((node_conection.islower() and path.count(node_conection) < allowed_visits)) or node_conection.isupper():

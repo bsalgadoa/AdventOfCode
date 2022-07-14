@@ -48,55 +48,57 @@ Given these new rules, how many paths through this cave system are there?
 '''
 
 from collections import defaultdict
-
+from queue import Queue
 
 def solution():
 
     with open("012.txt", 'r') as f:
-        nodes_dict = defaultdict(lambda: [] )
+        node_conections = defaultdict(lambda: [] )
         for line in f:
             a, b = line.strip().split("-")
-            #print (a, b)
-            if a != "end" and b != "start": nodes_dict[a].append(b)
-            if b != "end" and a != "start": nodes_dict[b].append(a)
 
-            #print (nodes_dict)
+            # Creates a dict of nodes as keys and its conections, as values.
+            # Exclude conection start in values and node end as key.
+            if a != "end" and b != "start": node_conections[a].append(b)
+            if b != "end" and a != "start": node_conections[b].append(a)
+            #print (node_conections)
 
-    def paths(node = "start", visited_nodes = set(), twice_visited_nodes = set()):
+        def paths(node = 'start', allowed_visits = 1):
 
-        node_conections = nodes_dict[node]
+            total_paths = 0
 
-        if node == "end":
-            return 1
+            possible_paths = Queue()
 
-        total_paths = 0
+            for node_conection in node_conections[node]:
+                possible_paths.put([node, node_conection])
 
-        for node in node_conections:
+            while not possible_paths.empty():
 
-            if node == "end":
-                total_paths +=1
-                continue
+                path = possible_paths.get()
 
-            if node in twice_visited_nodes:
-                continue
+                last_node = path[-1]
 
-            if node in visited_nodes:
-                twice_visited_nodes.add(node.lower())
+                # just in case there's a: start-end.
+                if node_conection == "end":
+                    total_paths += 1
+                    continue
 
+                for node_conection in node_conections[last_node]:
 
-            # add the node to the visited nodes list
-            visited_nodes.add(node.lower())
+                    if node_conection == "end":
+                        total_paths += 1
+                        #print(element)
 
-            # if the node is not the end, keep looking for one.
-            total_paths += paths(node, visited_nodes)
+                    else:
+                        if ((node_conection.islower() and path.count(node_conection) < allowed_visits)) or node_conection.isupper():
 
-            # remove the node to the visited nodes list
-            visited_nodes.discard(node)
-            twice_visited_nodes.discard(node)
+                            path_copy = path[:]
+                            path_copy.append(node_conection)
+                            possible_paths.put(path_copy)
 
-        return total_paths
+            return total_paths
 
-    return paths("start")
+    return paths()
 
 
 if __name__ == '__main__':

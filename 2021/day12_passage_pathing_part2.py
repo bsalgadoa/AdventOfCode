@@ -63,7 +63,7 @@ def solution():
             # Exclude conection start in values and node end as key.
             if a != "end" and b != "start": node_conections[a].append(b)
             if b != "end" and a != "start": node_conections[b].append(a)
-            #print (node_conections)
+        #print (node_conections)
 
         def paths(node = 'start', allowed_visits = 1):
 
@@ -118,12 +118,12 @@ if __name__ == '__main__':
 
 import cProfile
 import re
-cProfile.run('re.compile("day12_passage_pathing_part2")')
-#cProfile.run('re.compile("day12_passage_pathing_part2")', "part2.txt")
+#cProfile.run("solution()")
+cProfile.run("solution()", "solution.txt")
 
 import pstats
 from pstats import SortKey
-p = pstats.Stats('part2.txt')
+p = pstats.Stats('solution.txt')
 #p.strip_dirs().sort_stats(-1).print_stats()
-#p.sort_stats(SortKey.CUMULATIVE).print_stats(10)
+p.sort_stats(SortKey.CUMULATIVE).print_stats(10)
 #p.sort_stats(SortKey.TIME).print_stats(10)

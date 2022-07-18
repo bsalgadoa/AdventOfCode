@@ -102,22 +102,18 @@ from collections import defaultdict
 def solution():
 
     with open("012.txt", 'r') as f:
-        nodes_dict = defaultdict(lambda: [] )
+        node_conections = defaultdict(lambda: [] )
         for line in f:
             a, b = line.strip().split("-")
-
-            if a != "end" and b != "start": nodes_dict[a].append(b)
-            if b != "end" and a != "start": nodes_dict[b].append(a)
-
-        #print (nodes_dict)
+            if a != "end" and b != "start": node_conections[a].append(b)
+            if b != "end" and a != "start": node_conections[b].append(a)
+        #print (node_conections)
 
     def paths(node = "start", visited_nodes = set()):
 
-        node_conections = nodes_dict[node]
-
         total_paths = 0
 
-        for node in node_conections:
+        for node in node_conections[node]:
 
             if node == "end":
                 total_paths += 1
@@ -148,12 +144,12 @@ if __name__ == '__main__':
 
 import cProfile
 import re
-cProfile.run('re.compile("day12_passage_pathing_part1")')
-#cProfile.run('re.compile("day12_passage_pathing_part1")', "part1.txt")
+#cProfile.run("solution()")
+cProfile.run("solution()", "solution.txt")
 
 import pstats
 from pstats import SortKey
-p = pstats.Stats('part1.txt')
+p = pstats.Stats('solution.txt')
 #p.strip_dirs().sort_stats(-1).print_stats()
-#p.sort_stats(SortKey.CUMULATIVE).print_stats(10)
+p.sort_stats(SortKey.CUMULATIVE).print_stats(10)
 #p.sort_stats(SortKey.TIME).print_stats(10)

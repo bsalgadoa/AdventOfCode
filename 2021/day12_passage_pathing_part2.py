@@ -65,7 +65,7 @@ def solution():
             if b != "end" and a != "start": node_conections[b].append(a)
             #print (node_conections)
 
-        def paths(node = 'start', allowed_visits = 2):
+        def paths(node = 'start', allowed_visits = 1):
 
             total_paths = 0
             possible_paths = Queue()
@@ -112,5 +112,18 @@ def solution():
 if __name__ == '__main__':
     #solution()
     #import timeit as t
-    #print(t.timeit(solution, number=1))
+    #print(t.timeit(solution, number=1_000))
     print("solution:", solution())
+
+
+import cProfile
+import re
+cProfile.run('re.compile("day12_passage_pathing_part2")')
+#cProfile.run('re.compile("day12_passage_pathing_part2")', "part2.txt")
+
+import pstats
+from pstats import SortKey
+p = pstats.Stats('part2.txt')
+#p.strip_dirs().sort_stats(-1).print_stats()
+#p.sort_stats(SortKey.CUMULATIVE).print_stats(10)
+#p.sort_stats(SortKey.TIME).print_stats(10)

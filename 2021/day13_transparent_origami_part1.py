@@ -104,57 +104,46 @@ How many dots are visible after completing just the first fold instruction on yo
 '''
 
 import re
-import numpy as np
 
 def solution():
+
+    dots_counter = 0
+    dots_set = set()
 
     with open("013.txt", 'r') as f:
         dots_data, folding_data = f.read().strip().split("\n\n")
 
-    dots_counter = 0
-    dots_set = set()
-    folding_list = list()
-
+    #set of tuples (x, y)
     for line in dots_data.strip().splitlines():
         i, j = map(int, line.strip().split(","))
         dots_set.add((i, j))
 
-    for line in folding_data.strip().splitlines():
-        folding_data = line.split()[-1]
-        axis, position = folding_data.split("=")
-        folding_list.append([axis, int(position)])
+    folding_list = re.findall("[xy]=[0-9]+",folding_data)[0]
 
-    #print (folding_list)
+    axis, position = folding_list.split("=")
+    position = int(position)
+    new_dots = set()
 
-    def dots_after_folding(dots, axis, position):
+    if axis == "x":
+        columns = position
+        for dot in dots_set:
+            i , j = dot[0], dot[1]
+            if i > position:
+                new_dots.add((2*position - i, j))
+            else:
+                new_dots.add((i, j))
+    else:
+        rows = position
+        for dot in dots_set:
+            i , j = dot[0], dot[1]
+            if j > position:
+                new_dots.add((i,2*position - j))
+            else:
+                new_dots.add((i, j))
 
-        new_dots = set()
+    dots_set = new_dots
+    dots_counter += len(dots_set)
 
-        if axis == "x":
-            for dot in dots:
-                i , j = dot[0], dot[1]
-                if i < position:
-                    new_dots.add((2*position - i, j))
-                else:
-                    new_dots.add((i, j))
-
-        else:
-            for dot in dots:
-                i , j = dot[0], dot[1]
-                if j > position:
-                    new_dots.add((i,2*position - j))
-                else:
-                    new_dots.add((i, j))
-
-        return new_dots
-
-
-    dots = dots_set
-    for folding in folding_list:
-        axis, position = folding[0], folding[1]
-        dots = dots_after_folding(dots, axis, position)
-        dots_counter += len(dots)
-        break
 
     return dots_counter
 

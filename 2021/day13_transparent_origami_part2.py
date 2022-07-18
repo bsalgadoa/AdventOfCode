@@ -9,6 +9,7 @@ Your puzzle answer was HKUJGAJZ.
 '''
 
 import numpy as np
+import re
 
 def solution():
 
@@ -24,9 +25,10 @@ def solution():
         dots_set.add((i, j))
 
     # folding instructions
-    for line in folding_data.strip().splitlines():
-        folding_data = line.split()[-1]
-        axis, position = folding_data.split("=")
+    folding_list = re.findall("[xy]=[0-9]+",folding_data)
+
+    for folding in folding_list:
+        axis, position = folding.strip().split("=")
         position = int(position)
         new_dots = set()
 
@@ -49,16 +51,16 @@ def solution():
 
         dots_set = new_dots
         dots_counter += len(dots_set)
-        #break
 
     matrix = np.zeros((columns, rows))
     for dot in dots_set:
         x, y = dot[0], dot[1]
         matrix[x][y] = "11"
+
     print(matrix)
     print(np.transpose(matrix))
 
-    return np.transpose(matrix)
+    return
 
 
 if __name__ == '__main__':

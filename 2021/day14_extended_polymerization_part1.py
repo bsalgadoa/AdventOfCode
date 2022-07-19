@@ -57,37 +57,38 @@ from collections import Counter
 def solution():
 
     steps = 10
-    pair_insertion_dict = dict()
 
     with open("014.txt", 'r') as f:
+        template = str(f.readline().strip())
 
-        template_list = list(f.readline().strip())
-
+        pair_insertion_dict = dict()
         for line in f.readlines()[1:]:
             [k, v] = line.strip().split(" -> ")
             pair_insertion_dict[k] = v
 
     for step in range(steps):
-        len_new_template = 2 * len(template_list) - 1
+        new_template_str = str()
 
-        for i in range(1, (len_new_template), 2):
-            k = template_list[i-1]+template_list[i]
-            template_list.insert(i, pair_insertion_dict[k])
+        for i in range(1, (len(template))):
+            k = template[i-1] + template[i]
+            new_template_str += template [i-1] + pair_insertion_dict[k]
 
-    counter = Counter(template_list)
-    max_value = max(counter.values())
-    min_value = min(counter.values())
+        template = new_template_str + template[i]
 
-    return (max_value-min_value)
+    counter = Counter(template)
+    qt_most_common = max(counter.values())
+    qt_least_common = min(counter.values())
+
+    return (qt_most_common - qt_least_common)
 
 if __name__ == '__main__':
     #solution()
+    print("solution:", solution())
     #import timeit as t
     #print(t.timeit(solution, number=1_00))
-    #print("solution:", solution())
 
 import cProfile
-#cProfile.run("solution()")
+cProfile.run("solution()")
 #cProfile.run("solution()", "solution.txt")
 
 import pstats

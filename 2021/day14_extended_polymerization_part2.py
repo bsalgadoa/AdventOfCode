@@ -23,7 +23,7 @@ def solution():
             [k, v] = line.strip().split(" -> ")
             pair_insertion_rules[k] = v
 
-
+    # make initial pairs_dict from the template
     pairs_dict = defaultdict(lambda: 0)
     for i in range(1, (len(template))):
         k = template[i-1] + template[i]
@@ -33,6 +33,8 @@ def solution():
     for i in range(steps):
         pairs_counter_perstep = defaultdict(lambda: 0)
 
+        # each key in a pairs_dict it's a pair that will generate 2 new pairs
+        # instead of generating and saving a new string or a list, we'll just keep track of pairs count with a dict.
         for k in pairs_dict:
             k0, k1 = k
 
@@ -45,13 +47,15 @@ def solution():
         pairs_dict = pairs_counter_perstep
 
 
+    # the sum of each letter after n steps, will be last letter of every key times its own value
+    # plus the initial letter of the initial template.
     letter_counter = defaultdict(lambda: 0)
-    for k in pairs_counter_perstep:
+    for k in pairs_dict:
         k0, k1 = k
-        letter_counter[k1] += pairs_counter_perstep[k]
-
+        letter_counter[k1] += pairs_dict[k]
     letter_counter[template[0]] += 1
 
+    # now just find the quantity of both the most and the least common in order to find the solution.
     letter_counter = Counter(letter_counter)
     qt_most_common = max(letter_counter.values())
     qt_least_common = min(letter_counter.values())

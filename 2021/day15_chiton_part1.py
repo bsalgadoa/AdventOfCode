@@ -33,8 +33,7 @@ The total risk of this path is 40 (the starting position is never entered, so it
 What is the lowest total risk of any path from the top left to the bottom right?
 
 '''
-
-from queue import Queue
+import heapq
 
 def solution():
 
@@ -46,7 +45,49 @@ def solution():
                 line_list.append((int(i)))
             grid.append(line_list)
 
-        print(grid)
+        #print(grid)
+
+    def dijkstra(grid):
+        ## set the grid size/limits:
+        # number of rows
+        n = len(grid)
+        #number of columns
+        m = len(grid[0])
+
+        # # start going row by row
+        # for i in range(n):
+        #     # start going column by column
+        #     for j in range(m):
+
+        pq = [0, 0, 0] #-> 3-element list including the priority,
+        #heapq.heapify(x) -> Transform list x into a heap, in-place, in linear time.
+        heapq.heapify(pq)
+
+
+
+
+
+
+    return
+
+if __name__ == '__main__':
+    #solution()
+    print("solution:", solution())
+    #import timeit as t
+    #print(t.timeit(solution, number=1_00))
+
+import cProfile
+#cProfile.run("solution()")
+#cProfile.run("solution()", "solution.txt")
+
+import pstats
+from pstats import SortKey
+#p = pstats.Stats('solution.txt')
+#p.strip_dirs().sort_stats(-1).print_stats()
+#p.sort_stats(SortKey.CUMULATIVE).print_stats(10)
+#p.sort_stats(SortKey.TIME).print_stats(10)
+
+
 
 '''
 # from: https://en.wikipedia.org/wiki/Dijkstra%27s_algorithm
@@ -72,38 +113,3 @@ Pseudocode
 19      return dist[], prev[]
 
 '''
-
-    def dijkstra(grid):
-        ## set the grid size/limits:
-        # number of rows
-        n = len(grid)
-        #number of columns
-        m = len(grid[0])
-
-        # start going row by row
-        for i in range(n):
-            # start going column by column
-            for j in range(m):
-
-
-
-
-
-    return
-
-if __name__ == '__main__':
-    #solution()
-    print("solution:", solution())
-    #import timeit as t
-    #print(t.timeit(solution, number=1_00))
-
-import cProfile
-#cProfile.run("solution()")
-#cProfile.run("solution()", "solution.txt")
-
-import pstats
-from pstats import SortKey
-#p = pstats.Stats('solution.txt')
-#p.strip_dirs().sort_stats(-1).print_stats()
-#p.sort_stats(SortKey.CUMULATIVE).print_stats(10)
-#p.sort_stats(SortKey.TIME).print_stats(10)

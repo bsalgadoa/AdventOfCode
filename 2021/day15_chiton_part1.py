@@ -62,30 +62,55 @@ def solution():
         checked = list()
 
         while pq:
-
+            #print (pq)
             # saco o elemento com soma mais baixa
             risk_level, i, j = heapq.heappop(pq)
 
-            # se for o canto inf direito, devolve a soma
+            # se for o canto inf direito, devolve o risk_level + o seu valor
             if (i, j) == (n-1, m-1):
+                print (f"FIM ({i}, {j})")
                 return risk_level
 
-            # se o que tiver sacado estiver fora dos limites, passa ao próximo
-            if (i, j) in checked or i < 0 or i = n or j < 0 or j = m:
+            # se o que tiver sacado, estiver fora dos limites, passa ao próximo
+            if (i, j) in checked or i < 0 or i == n or j < 0 or j == m:
                 continue
 
             else:
                 # adicionar o ponto aos já corridos.
-                checked.add(i, j)
+                checked.append((i, j))
 
                 # adicionar os vizinhos ao pq
                 # mas e o custo???
-                heapq.heappush(pq("risk_level da celula + o que vem de trás" , i + 1, j + 1 ))
-                heapq.heappush(pq(risk_level + ?, i + 1, j - 1 ))
-                heapq.heappush(pq(risk_level + ?, i - 1, j + 1 ))
-                heapq.heappush(pq(risk_level + ?, i - 1, j - 1 ))
+                # heapq.heappush(pq, ((grid[i+1][j+1] + risk_level), i + 1, j + 1 ))
+                # heapq.heappush(pq, ((grid[i+1][j-1] + risk_level), i + 1, j - 1 ))
+                # heapq.heappush(pq, ((grid[i-1][j+1] + risk_level), i - 1, j + 1 ))
+                # heapq.heappush(pq, ((grid[i-1][j-1] + risk_level), i - 1, j - 1 ))
 
 
+                try:
+                    heapq.heappush(pq, ((grid[i+1][j] + risk_level), i + 1, j ))
+                except:
+                    pass
+
+                try:
+                    heapq.heappush(pq, ((grid[i-1][j] + risk_level), i - 1, j))
+                except:
+                    pass
+
+                try:
+                    heapq.heappush(pq, ((grid[i][j+1] + risk_level), i, j + 1 ))
+                except:
+                    pass
+
+                try:
+                    heapq.heappush(pq, ((grid[i][j-1] + risk_level), i, j - 1 ))
+                except:
+                    pass
+
+
+
+
+    return dijkstra(grid)
 
 
 if __name__ == '__main__':

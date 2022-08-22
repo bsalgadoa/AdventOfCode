@@ -54,21 +54,39 @@ def solution():
         #number of columns
         m = len(grid[0])
 
-        # # start going row by row
-        # for i in range(n):
-        #     # start going column by column
-        #     for j in range(m):
-
-        pq = [0, 0, 0] #-> 3-element list including the priority,
+        # tem que começar no canto sup esquerdo (0,0) e "don't count the risk level of your starting position"
+        pq = [(0, 0, 0)] #-> 3-element list including the priority,
         #heapq.heapify(x) -> Transform list x into a heap, in-place, in linear time.
         heapq.heapify(pq)
 
+        checked = list()
+
+        while pq:
+
+            # saco o elemento com soma mais baixa
+            risk_level, i, j = heapq.heappop(pq)
+
+            # se for o canto inf direito, devolve a soma
+            if (i, j) == (n-1, m-1):
+                return risk_level
+
+            # se o que tiver sacado estiver fora dos limites, passa ao próximo
+            if (i, j) in checked or i < 0 or i = n or j < 0 or j = m:
+                continue
+
+            else:
+                # adicionar o ponto aos já corridos.
+                checked.add(i, j)
+
+                # adicionar os vizinhos ao pq
+                # mas e o custo???
+                heapq.heappush(pq("risk_level da celula + o que vem de trás" , i + 1, j + 1 ))
+                heapq.heappush(pq(risk_level + ?, i + 1, j - 1 ))
+                heapq.heappush(pq(risk_level + ?, i - 1, j + 1 ))
+                heapq.heappush(pq(risk_level + ?, i - 1, j - 1 ))
 
 
 
-
-
-    return
 
 if __name__ == '__main__':
     #solution()

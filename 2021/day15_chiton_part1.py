@@ -34,6 +34,7 @@ What is the lowest total risk of any path from the top left to the bottom right?
 
 '''
 import heapq
+from collections import defaultdict
 
 def solution():
 
@@ -59,7 +60,8 @@ def solution():
     heapq.heapify(pq)
 
     # positons checked
-    checked = set()
+    #checked = set()
+    checked_dict = defaultdict(lambda: 0)
 
     while pq:
         # pop first element in pq wich will always be the one with lower risk_level
@@ -69,8 +71,17 @@ def solution():
         if (i, j) == (n-1, m-1):
             return risk_level
 
-        if (i, j) in checked: continue
-        checked.add((i, j))
+        # if (i, j) in checked: continue
+        # checked.add((i, j))
+
+        #Djikstra check
+        if (i, j) not in checked_dict:
+            checked_dict[(i, j)] = risk_level + grid[i][j]
+
+        else:
+            if risk_level >= checked_dict[(i,j)]: continue
+            else: checked_dict[(i, j)] = risk_level
+
 
         # add neighbors to pq
         if (i+1<n):

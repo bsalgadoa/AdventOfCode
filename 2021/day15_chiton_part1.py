@@ -44,73 +44,43 @@ def solution():
             for i in line.strip():
                 line_list.append((int(i)))
             grid.append(line_list)
-
         #print(grid)
 
-    def dijkstra(grid):
-        ## set the grid size/limits:
-        # number of rows
-        n = len(grid)
-        #number of columns
-        m = len(grid[0])
+    ## set the grid size/limits:
+    # number of rows
+    n = len(grid)
+    #number of columns
+    m = len(grid[0])
 
-        # tem que começar no canto sup esquerdo (0,0) e "don't count the risk level of your starting position"
-        pq = [(0, 0, 0)] #-> 3-element list including the priority,
-        #heapq.heapify(x) -> Transform list x into a heap, in-place, in linear time.
-        heapq.heapify(pq)
+    # start at the top left corner (0,0) and "don't count the risk level of your starting position"
+    pq = [(0, 0, 0)] #-> 3-element list including the priority,
 
-        checked = list()
+    #heapq.heapify(x) -> Transform list x into a heap, in-place, in linear time.
+    heapq.heapify(pq)
 
-        while pq:
-            #print (pq)
-            # saco o elemento com soma mais baixa
-            risk_level, i, j = heapq.heappop(pq)
+    # positons checked
+    checked = set()
 
-            # se for o canto inf direito, devolve o risk_level + o seu valor
-            if (i, j) == (n-1, m-1):
-                print (f"FIM ({i}, {j})")
-                return risk_level
+    while pq:
+        # pop first element in pq wich will always be the one with lower risk_level
+        risk_level, i, j = heapq.heappop(pq)
 
-            # se o que tiver sacado, estiver fora dos limites, passa ao próximo
-            if (i, j) in checked or i < 0 or i == n or j < 0 or j == m:
-                continue
+        # return if it's destination
+        if (i, j) == (n-1, m-1):
+            return risk_level
 
-            else:
-                # adicionar o ponto aos já corridos.
-                checked.append((i, j))
+        if (i, j) in checked: continue
+        checked.add((i, j))
 
-                # adicionar os vizinhos ao pq
-                # mas e o custo???
-                # heapq.heappush(pq, ((grid[i+1][j+1] + risk_level), i + 1, j + 1 ))
-                # heapq.heappush(pq, ((grid[i+1][j-1] + risk_level), i + 1, j - 1 ))
-                # heapq.heappush(pq, ((grid[i-1][j+1] + risk_level), i - 1, j + 1 ))
-                # heapq.heappush(pq, ((grid[i-1][j-1] + risk_level), i - 1, j - 1 ))
-
-
-                try:
-                    heapq.heappush(pq, ((grid[i+1][j] + risk_level), i + 1, j ))
-                except:
-                    pass
-
-                try:
-                    heapq.heappush(pq, ((grid[i-1][j] + risk_level), i - 1, j))
-                except:
-                    pass
-
-                try:
-                    heapq.heappush(pq, ((grid[i][j+1] + risk_level), i, j + 1 ))
-                except:
-                    pass
-
-                try:
-                    heapq.heappush(pq, ((grid[i][j-1] + risk_level), i, j - 1 ))
-                except:
-                    pass
-
-
-
-
-    return dijkstra(grid)
+        # add neighbors to pq
+        if (i+1<n):
+             heapq.heappush(pq, ((grid[i+1][j] + risk_level), i+1, j))
+        if (i-1>=0):
+             heapq.heappush(pq, ((grid[i-1][j] + risk_level), i-1, j))
+        if (j+1<m):
+             heapq.heappush(pq, ((grid[i][j+1] + risk_level), i, j+1))
+        if (j-1>=0):
+             heapq.heappush(pq, ((grid[i][j-1] + risk_level), i, j-1))
 
 
 if __name__ == '__main__':
@@ -129,30 +99,3 @@ from pstats import SortKey
 #p.strip_dirs().sort_stats(-1).print_stats()
 #p.sort_stats(SortKey.CUMULATIVE).print_stats(10)
 #p.sort_stats(SortKey.TIME).print_stats(10)
-
-
-
-'''
-# from: https://en.wikipedia.org/wiki/Dijkstra%27s_algorithm
-Pseudocode
- 1    function Dijkstra(Graph, source):
- 2
- 3      for each vertex v in Graph.Vertices:
- 4          dist[v] ← INFINITY
- 5          prev[v] ← UNDEFINED
- 6          add v to Q
- 7      dist[source] ← 0
- 8
- 9      while Q is not empty:
-10          u ← vertex in Q with min dist[u]
-11          remove u from Q
-12
-13          for each neighbor v of u still in Q:
-14              alt ← dist[u] + Graph.Edges(u, v)
-15              if alt < dist[v] and dist[u] is not INFINITY:
-16                  dist[v] ← alt
-17                  prev[v] ← u
-18
-19      return dist[], prev[]
-
-'''

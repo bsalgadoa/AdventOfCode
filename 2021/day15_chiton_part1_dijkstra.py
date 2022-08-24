@@ -66,15 +66,10 @@ def solution():
         for (a, b) in [(1,0),(0,1)]:
             ii = i + a
             jj = j + b
-            if (0 <= ii < n and 0 <= jj < m):
-                neighbor_distance = d_dict[(ii, jj)]
-                neighbor_value = grid[ii][jj]
-                new_distance = neighbor_value + d
-                if (not neighbor_distance or neighbor_distance < new_distance) and (new_distance, ii, jj) not in pq:
-                        heapq.heappush(pq, (new_distance, ii, jj))
 
-            # if (0 <= ii < n and 0 <= jj < m) and (not d_dict[(ii, jj)] or d_dict[(ii, jj)] < grid[ii][jj] + d) and (grid[ii][jj] + d , ii, jj) not in pq:
-            #             heapq.heappush(pq, (grid[ii][jj] + d , ii, jj))
+            if (0 <= ii < n and 0 <= jj < m) and (grid[ii][jj] + d, ii, jj) not in pq:
+                heapq.heappush(pq, (grid[ii][jj] + d, ii, jj))
+
 
     return d_grid[n-1][m-1]
 

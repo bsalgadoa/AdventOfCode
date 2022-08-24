@@ -63,12 +63,7 @@ def solution():
         d_dict[(i, j)] = d
         d_grid[i][j] = d
 
-        # # uncoment to return solution without going to all the nodes asa hits last node
-        # if (i, j) == (n-1, m-1):
-        #     #print (d_grid)
-        #     return d_grid[i][j]
-
-        for (a, b) in [(1,0),(-1,0),(0,1),(0,-1)]:
+        for (a, b) in [(1,0),(0,1)]:
             ii = i + a
             jj = j + b
             if (0 <= ii < n and 0 <= jj < m):

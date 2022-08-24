@@ -82,16 +82,12 @@ def solution():
             if risk_level >= checked_dict[(i,j)]: continue
             else: checked_dict[(i, j)] = risk_level
 
-
         # add neighbors to pq
-        if (i+1<n):
-             heapq.heappush(pq, ((grid[i+1][j] + risk_level), i+1, j))
-        if (i-1>=0):
-             heapq.heappush(pq, ((grid[i-1][j] + risk_level), i-1, j))
-        if (j+1<m):
-             heapq.heappush(pq, ((grid[i][j+1] + risk_level), i, j+1))
-        if (j-1>=0):
-             heapq.heappush(pq, ((grid[i][j-1] + risk_level), i, j-1))
+        for (a, b) in [(1,0),(0,1))]:
+            ii = i + a
+            jj = j + b
+            if 0 <= ii < n and 0 <= jj < m:
+                heapq.heappush(pq, (grid[ii][jj] + risk_level , ii, jj))
 
 
 if __name__ == '__main__':

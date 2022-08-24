@@ -83,7 +83,7 @@ def solution():
             else: checked_dict[(i, j)] = risk_level
 
         # add neighbors to pq
-        for (a, b) in [(1,0),(0,1))]:
+        for (a, b) in [(1,0),(0,1)]:
             ii = i + a
             jj = j + b
             if 0 <= ii < n and 0 <= jj < m:

@@ -14,7 +14,7 @@ The cavern is large, but has a very low ceiling, restricting your motion to two 
 3125421639
 1293138521
 2311944581
-You start in the top left position, your destination is the bottom right position, and you cannot move diagonally. The number at each position is its risk level; to determine the total risk of an entire path, add up the risk levels of each position you enter (that is, don't count the risk level of your starting position unless you enter it; leaving it adds no risk to your total).
+You start in the top left position, your destination is the bottom right position, and you cannot move diagonally. The number at each position is its risk level; to determine the total risk of an entire path, aneighbor_distance up the risk levels of each position you enter (that is, don't count the risk level of your starting position unless you enter it; leaving it aneighbor_distances no risk to your total).
 
 Your goal is to find a path with the lowest total risk. In this example, a path with the lowest total risk is highlighted here:
 
@@ -34,6 +34,7 @@ What is the lowest total risk of any path from the top left to the bottom right?
 
 '''
 import heapq
+from collections import defaultdict
 
 def solution():
 
@@ -48,7 +49,8 @@ def solution():
     n = len(grid)
     m = len(grid[0])
 
-    distance = [[0] * m for i in range(n)]
+    d_grid = [[0] * m for i in range(n)]
+    d_dict = defaultdict(int)
 
     pq = [(0, 0, 0)]
     heapq.heapify(pq)
@@ -56,18 +58,30 @@ def solution():
     while pq:
         d, i, j = heapq.heappop(pq)
 
-        if 0 < distance[i][j] < d: continue
-        if not distance[i][j] or distance[i][j] > d : distance[i][j] = d
+        if d_dict[(i, j)] and d_dict[(i, j)] < d : continue
 
-        if (i, j) == (n-1, m-1):
-            return distance[i][j]
+        d_dict[(i, j)] = d
+        d_grid[i][j] = d
 
-        # add neighbors to pq
+        # # uncoment to return solution without going to all the nodes asa hits last node
+        # if (i, j) == (n-1, m-1):
+        #     #print (d_grid)
+        #     return d_grid[i][j]
+
         for (a, b) in [(1,0),(-1,0),(0,1),(0,-1)]:
             ii = i + a
             jj = j + b
-            if 0 <= ii < n and 0 <= jj < m:
-                heapq.heappush(pq, (grid[ii][jj] + d , ii, jj))
+            if (0 <= ii < n and 0 <= jj < m):
+                neighbor_distance = d_dict[(ii, jj)]
+                neighbor_value = grid[ii][jj]
+                new_distance = neighbor_value + d
+                if (not neighbor_distance or neighbor_distance < new_distance) and (new_distance, ii, jj) not in pq:
+                        heapq.heappush(pq, (new_distance, ii, jj))
+
+            # if (0 <= ii < n and 0 <= jj < m) and (not d_dict[(ii, jj)] or d_dict[(ii, jj)] < grid[ii][jj] + d) and (grid[ii][jj] + d , ii, jj) not in pq:
+            #             heapq.heappush(pq, (grid[ii][jj] + d , ii, jj))
+
+    return d_grid[n-1][m-1]
 
 
 if __name__ == '__main__':
@@ -77,7 +91,7 @@ if __name__ == '__main__':
     #print(t.timeit(solution, number=1_00))
 
 import cProfile
-#cProfile.run("solution()")
+cProfile.run("solution()")
 #cProfile.run("solution()", "solution.txt")
 
 import pstats

@@ -58,18 +58,20 @@ def solution():
     while pq:
         d, i, j = heapq.heappop(pq)
 
-        if d_dict[(i, j)] and d_dict[(i, j)] < d : continue
-
-        d_dict[(i, j)] = d
         d_grid[i][j] = d
 
         for (a, b) in [(1,0),(0,1)]:
             ii = i + a
             jj = j + b
 
-            if (0 <= ii < n and 0 <= jj < m) and (grid[ii][jj] + d, ii, jj) not in pq:
-                heapq.heappush(pq, (grid[ii][jj] + d, ii, jj))
-
+            # if node neighbors are inside matrix and
+            if (0 <= ii < n and 0 <= jj < m):
+                # if the neighbor was not visited yet or if was but we now found a shorter path (lower distance)
+                if not d_dict[(ii, jj)] or grid[ii][jj] + d < d_dict[(ii, jj)]:
+                    # push neighbor to pq
+                    heapq.heappush(pq, (grid[ii][jj] + d, ii, jj))
+                    # update the neighbor distance value in dict
+                    d_dict[(ii, jj)] = grid[ii][jj] + d
 
     return d_grid[n-1][m-1]
 

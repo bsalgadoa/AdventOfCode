@@ -120,13 +120,12 @@ The total risk of this path is 315 (the starting position is still never entered
 
 Using the full map, what is the lowest total risk of any path from the top left to the bottom right?
 
-
+Your puzzle answer was 2897.
 
 '''
 
 import heapq
 from collections import defaultdict
-import numpy as np
 
 def solution():
 
@@ -141,13 +140,16 @@ def solution():
     n = len(tile_grid)
     m = len(tile_grid[0])
 
-    tile_size = 5*5
     nn = n * 5
     nm = m * 5
 
-    d_grid = [[0] * nm for i in range(nn)]
-    d_dict = defaultdict(int)
     map_grid = [[0] * nm for i in range(nn)]
+    map_grid[0][0] = tile_grid[0][0]
+
+    d_grid = [[0] * nm for i in range(nn)]
+
+    d_dict = defaultdict(int)
+    d_dict[(0,0)] = tile_grid[0][0]
 
     pq = [(0, 0, 0)]
     heapq.heapify(pq)
@@ -157,12 +159,13 @@ def solution():
 
         d_grid[i][j] = d
 
-        for (a, b) in [(1,0),(0,1)]:
+        for (a, b) in [(1,0),(0,1),(-1,0)]: ## here!! why, adding (-1,0) will solve this?! ##
             ii = i + a
             jj = j + b
 
-            # if node neighbors are inside the full map
+            # if node neighbors are inside the map
             if (0 <= ii < nn and 0 <= jj < nm):
+
                 # calculate the neighbor value at any position in the map, based in the first tile
                 map_grid[ii][jj] = (((tile_grid[ii%n][jj%m] + (ii // n) + (jj // m)))-1) % 9 + 1
                 # -1 to match the first tile in the aux grid
@@ -175,36 +178,16 @@ def solution():
                     # update the neighbor distance value in dict
                     d_dict[(ii, jj)] = map_grid[ii][jj] + d
 
-    #print (np.array(map_grid))
-    #print (np.array(d_grid))
-    #return d_grid[nn-1][nm-1]
 
+    ## Debug
+    import numpy as np
+    bananas = {queijo for queijo in d_dict if d_dict[queijo]==0}
+    print("abanas: ",bananas)
+    print (f'map_grid: {np.array(map_grid)}')
+    print (f'd_grid: {np.array(d_grid)}')
+    print (f'd_dict: {d_dict[(0,0)]}')
 
-
-
-    # make a list with the path.
-    # trying to debug
-    pq = [(d_grid[nn-1][nm-1], nn-1, nm-1)]
-    heapq.heapify(pq)
-    path = list()
-    while pq:
-        d, i, j = heapq.heappop(pq)
-        pq = []
-
-        if (i, j) == (0, 0):
-            print (f'first aproach: {d_grid[nn-1][nm-1]}')
-            #print (path)
-            print (f'path sum: {sum(path)}')
-            return
-
-        path.append(map_grid[i][j])
-
-        for (a, b) in [(-1,0),(0,-1)]:
-            ii = i + a
-            jj = j + b
-            if (0 <= ii < nn and 0 <= jj < nm):
-                    heapq.heappush(pq, (d_grid[ii][jj] + d, ii, jj))
-
+    return d_grid[nn-1][nm-1]
 
 
 if __name__ == '__main__':

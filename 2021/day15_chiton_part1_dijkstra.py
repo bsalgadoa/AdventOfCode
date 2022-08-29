@@ -62,7 +62,7 @@ def solution():
 
         d_grid[i][j] = d
 
-        for (a, b) in [(1,0),(0,1)]:
+        for (a, b) in [(1,0),(0,1),(-1,0)]:
             ii = i + a
             jj = j + b
 
@@ -94,3 +94,11 @@ from pstats import SortKey
 #p.strip_dirs().sort_stats(-1).print_stats()
 #p.sort_stats(SortKey.CUMULATIVE).print_stats(10)
 #p.sort_stats(SortKey.TIME).print_stats(10)
+
+## NOTES:
+# also need to check the neighbor above (-1,0)
+# otherwise it will miss the right solution when the shortest path is something like this for example:
+# 19999
+# 19111
+# 11191
+# 99991

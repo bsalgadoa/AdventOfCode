@@ -83,7 +83,7 @@ def solution():
             else: checked_dict[(i, j)] = risk_level
 
         # add neighbors to pq
-        for (a, b) in [(1,0),(0,1),(-1,0)]: ## check notes bellow
+        for (a, b) in [(1,0),(0,1),(-1,0),(0,-1)]: ## check notes bellow
             ii = i + a
             jj = j + b
             if 0 <= ii < n and 0 <= jj < m:
@@ -109,9 +109,17 @@ from pstats import SortKey
 
 
 ## NOTES:
-# also need to check the neighbor above (-1,0)
+# also need to check the neighbor above (-1,0) and left (0,-1)
 # otherwise it will miss the right solution when the shortest path is something like this for example:
 # 19999
 # 19111
 # 11191
 # 99991
+#
+# or
+#
+# 11111
+# 99991
+# 11111
+# 19999
+# 11111

@@ -144,12 +144,16 @@ def solution():
     nm = m * 5
 
     map_grid = [[0] * nm for i in range(nn)]
-    map_grid[0][0] = tile_grid[0][0]
+    for i in range(nn):
+        for j in range(nm):
+            map_grid[i][j]=((((tile_grid[i%n][j%m] + (i // n) + (j // m)))-1) % 9 + 1)
+            # -1 to match the first tile in the aux grid
+            # +1 to remove zeros
 
     d_grid = [[0] * nm for i in range(nn)]
 
     d_dict = defaultdict(int)
-    d_dict[(0,0)] = tile_grid[0][0]
+    d_dict[(0,0)] = map_grid[0][0]
 
     pq = [(0, 0, 0)]
     heapq.heapify(pq)
@@ -159,18 +163,12 @@ def solution():
 
         d_grid[i][j] = d
 
-        for (a, b) in [(1,0),(0,1),(-1,0)]: ## check notes bellow
+        for (a, b) in [(1,0),(0,1),(-1,0),(0,-1)]:
             ii = i + a
             jj = j + b
 
             # if node neighbors are inside the map
             if (0 <= ii < nn and 0 <= jj < nm):
-
-                # calculate the neighbor value at any position in the map, based in the first tile
-                map_grid[ii][jj] = (((tile_grid[ii%n][jj%m] + (ii // n) + (jj // m)))-1) % 9 + 1
-                # -1 to match the first tile in the aux grid
-                # +1 to remove zeros
-
                 # if the neighbor was not visited yet or if was but we now found a shorter path (lower distance)
                 if not d_dict[(ii, jj)] or map_grid[ii][jj] + d < d_dict[(ii, jj)]:
                     # push neighbor to pq
@@ -178,11 +176,7 @@ def solution():
                     # update the neighbor distance value in dict
                     d_dict[(ii, jj)] = map_grid[ii][jj] + d
 
-
     ## Debug
-    #import numpy as np
-    #bananas = {queijo for queijo in d_dict if d_dict[queijo]==0}
-    #print("abanas: ",bananas)
     #print (f'map_grid: \n{np.array(map_grid)}')
     #print (f'd_grid: \n{np.array(d_grid)}')
     #print (f'd_dict: {np.array(d_dict)}')
@@ -197,7 +191,7 @@ if __name__ == '__main__':
     #print(t.timeit(solution, number=1_00))
 
 import cProfile
-#cProfile.run("solution()")
+cProfile.run("solution()")
 #cProfile.run("solution()", "solution.txt")
 
 import pstats
@@ -208,9 +202,19 @@ from pstats import SortKey
 #p.sort_stats(SortKey.TIME).print_stats(10)
 
 ## NOTES:
-# also need to check the neighbor above (-1,0)
-# otherwise it will miss the right solution when the shortest path is something like this for example:
+# we need to check the neighbor above (-1,0) and left (0,-1)
+# otherwise it will miss some edge cases and  the right solution
+# for example when the shortest path is something like this:
+#
 # 19999
 # 19111
 # 11191
 # 99991
+#
+# or
+#
+# 11111
+# 99991
+# 11111
+# 19999
+# 11111

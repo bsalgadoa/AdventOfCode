@@ -140,8 +140,8 @@ def solution():
     n = len(tile_grid)
     m = len(tile_grid[0])
 
-    nn = n * 1
-    nm = m * 1
+    nn = n * 5
+    nm = m * 5
 
     map_grid = [[0] * nm for i in range(nn)]
     map_grid[0][0] = tile_grid[0][0]
@@ -159,7 +159,7 @@ def solution():
 
         d_grid[i][j] = d
 
-        for (a, b) in [(1,0),(0,1),(-1,0)]: ## here!! why, adding (-1,0) will solve this?! ##
+        for (a, b) in [(1,0),(0,1),(-1,0)]: ## check notes bellow
             ii = i + a
             jj = j + b
 
@@ -180,18 +180,15 @@ def solution():
 
 
     ## Debug
-    import numpy as np
+    #import numpy as np
     #bananas = {queijo for queijo in d_dict if d_dict[queijo]==0}
     #print("abanas: ",bananas)
-    print (f'map_grid: \n{np.array(map_grid)}')
-    print (f'd_grid: \n{np.array(d_grid)}')
+    #print (f'map_grid: \n{np.array(map_grid)}')
+    #print (f'd_grid: \n{np.array(d_grid)}')
     #print (f'd_dict: {np.array(d_dict)}')
     #print (f'd_dict: {d_dict[(0,0)]}')
 
     return d_grid[nn-1][nm-1]
-
-
-
 
 if __name__ == '__main__':
     #solution()
@@ -209,3 +206,11 @@ from pstats import SortKey
 #p.strip_dirs().sort_stats(-1).print_stats()
 #p.sort_stats(SortKey.CUMULATIVE).print_stats(10)
 #p.sort_stats(SortKey.TIME).print_stats(10)
+
+## NOTES:
+# also need to check the neighbor above (-1,0)
+# otherwise it will miss the right solution when the shortest path is something like this for example:
+# 19999
+# 19111
+# 11191
+# 99991

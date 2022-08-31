@@ -92,11 +92,16 @@ def solution():
 
     with open("016.txt", 'r') as f:
         input = f.readline().strip()
+        input = format(((int(input, 16))), 'b').zfill(len(input)*4)
+        # or
+        # input = bin(int(input, 16))[2:].zfill(len(input)*4)
 
 
 
 
-    return
+
+
+        return input
 
 
 

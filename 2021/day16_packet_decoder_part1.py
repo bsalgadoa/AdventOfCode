@@ -92,14 +92,42 @@ def solution():
 
     with open("016.txt", 'r') as f:
         input = f.readline().strip()
-        input = format(((int(input, 16))), 'b').zfill(len(input)*4)
-        # or
-        # input = bin(int(input, 16))[2:].zfill(len(input)*4)
+
+        input = bin(int(input, 16))[2:].zfill(len(input)*4)
+
+        test = "D2FE28"
+        input = bin(int(test, 16))[2:].zfill(len(test)*4)
+
+
+        '''
+        input -> packet
+
+        packet começa com:
+            VVV -> versão
+        depois
+            TTT -> type id
+                se type id == 4: é um valor
+                    o valor composto por algarismos representados por conjuntos de 5 numeros em que:
+                    o primeiro é 1 ou 0 seguidos de 4 numeros que representarão o valor de 0-9
+                    quando primeiro é 0 é o utlimo algarismo do valor.
+
+                    há que determinar o comprimento do packet sabendo que len(vvvttt4aaaaabbbbb.. etc) + (4 - len%4)
+
+                se type id != 4: é um operador
 
 
 
 
-
+        # version = int()
+        #
+        # v = input[:3]
+        # t = input[3:6]
+        # if input[6]:
+        #     A = input[7:11]
+        # if input[11]:
+        #     etc etc
+        # until input[n+5]
+        #     # we are in the packet
 
         return input
 

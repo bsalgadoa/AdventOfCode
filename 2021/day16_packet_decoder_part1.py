@@ -119,48 +119,48 @@ def solution():
                         0 - neste caso os proximos 15 bits são um valor que representa o comprimento total em bits dos subpackets contidos no packet
                         1 - neste caso os 11 bits seguintes serão um numero que representa o numero de subpackets contidos no paket.
         '''
-        #sum_versions = 0
+        sum_versions = 0
+
         def parse (input, sum_versions = 0 ):
 
-            version = int(input[0:3])
-            type_id = int(input[3:6])
+            version = int(input[0:3], 2)
+            sum_versions += version
+            type_id = int(input[3:6], 2)
 
             if type_id == 4:
-                data = []
-                a = 6
-                i = input[a]
+                data = str()
+                i = 6
+                a = input[i]
+
                 while True:
-                    if i == 0:
-                        data += [a+1:a+4]
-                        break
+                    if a == "1":
+                        data += input[i+1:i+5]
+                        i += 5
+                        a = input[i]
+
                     else:
-                        data += [a+1:a+4]
-                        a += 5
-                        i = input[a]
+                        data += input[i+1:i+5]
+                        break
+
+                literal_value = int(data, 2)
 
             else:
                 if input[6] == 0:
+                    #15 bits
                     pass
                 else: #input[6] == 1:
+                    ## 11 bits
                     pass
 
 
+            print ("version ", version)
+            print ("type_id ", type_id)
+            print ("data ",data)
+            print (f'literal_value {literal_value}')
 
+            return sum_versions
 
-        # version = int()
-        #
-        # v = input[:3]
-        # t = input[3:6]
-        # if input[6]:
-        #     A = input[7:11]
-        # if input[11]:
-        #     etc etc
-        # until input[n+5]
-        #     # we are in the packet
-
-
-        return input
-
+        return parse(input)
 
 
 

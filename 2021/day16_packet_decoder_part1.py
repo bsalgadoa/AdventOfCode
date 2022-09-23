@@ -95,9 +95,9 @@ def solution():
 
         input = bin(int(input, 16))[2:].zfill(len(input)*4)
 
-        test = "D2FE28"
+        test = "620080001611562C8802118E34"
         input = bin(int(test, 16))[2:].zfill(len(test)*4)
-
+        #print(input)
 
         '''
         input -> packet
@@ -123,13 +123,18 @@ def solution():
 
         def parse (input, sum_versions = 0 ):
 
+            print (input)
+
             version = int(input[0:3], 2)
-            sum_versions += version
+            print ("version ", version)
+
             type_id = int(input[3:6], 2)
+            print ("type_id ", type_id)
+
+            i = 6
 
             if type_id == 4:
                 data = str()
-                i = 6
                 a = input[i]
 
                 while True:
@@ -145,18 +150,35 @@ def solution():
                 literal_value = int(data, 2)
 
             else:
-                if input[6] == 0:
-                    #15 bits
-                    pass
+                # 15 bits
+                if input[i] == "0":
+                    #print ('banana')
+                    sub_packet_length = int(input[i+1:i+16], 2)
+
+                    z = input[i+16:i+16+sub_packet_length+1]
+
+                    sum_versions += parse (z, sum_versions = 0)
+
+                # 11 bits
                 else: #input[6] == 1:
-                    ## 11 bits
-                    pass
+                    #print ('ananas')
+
+                    sub_packet_count = int(input[i+1:i+12], 2)
+
+                    for j in range(sub_packet_count):
+
+                        #Isto não pode ser assim
+                        z = input[i+12:]
+
+                        sum_versions += parse (z, sum_versions = 0)
 
 
-            print ("version ", version)
-            print ("type_id ", type_id)
-            print ("data ",data)
-            print (f'literal_value {literal_value}')
+            #print ("version ", version)
+            #print ("type_id ", type_id)
+            #print ("data ",data)
+            #print (f'literal_value {literal_value}')
+
+            sum_versions += version
 
             return sum_versions
 

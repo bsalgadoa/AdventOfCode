@@ -115,6 +115,35 @@ def solution():
 
                 se type id != 4: é um operador
 
+                    significa que tem um "lenght type ID" que pode ser:
+                        0 - neste caso os proximos 15 bits são um valor que representa o comprimento total em bits dos subpackets contidos no packet
+                        1 - neste caso os 11 bits seguintes serão um numero que representa o numero de subpackets contidos no paket.
+        '''
+        #sum_versions = 0
+        def parse (input, sum_versions = 0 ):
+
+            version = int(input[0:3])
+            type_id = int(input[3:6])
+
+            if type_id == 4:
+                data = []
+                a = 6
+                i = input[a]
+                while True:
+                    if i == 0:
+                        data += [a+1:a+4]
+                        break
+                    else:
+                        data += [a+1:a+4]
+                        a += 5
+                        i = input[a]
+
+            else:
+                if input[6] == 0:
+                    pass
+                else: #input[6] == 1:
+                    pass
+
 
 
 
@@ -128,6 +157,7 @@ def solution():
         #     etc etc
         # until input[n+5]
         #     # we are in the packet
+
 
         return input
 

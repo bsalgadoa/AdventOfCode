@@ -33,8 +33,8 @@ The total risk of this path is 40 (the starting position is never entered, so it
 What is the lowest total risk of any path from the top left to the bottom right?
 
 Your puzzle answer was 592.
-
 '''
+
 import heapq
 from collections import defaultdict
 
@@ -68,7 +68,7 @@ def solution():
 
             # if node neighbors are inside matrix and
             if (0 <= ii < n and 0 <= jj < m):
-                # if the neighbor was not visited yet or if was but we now found a shorter path (lower distance)
+                # if the neighbor was not visited yet or if was, but we now found a shorter path (lower distance)
                 if not d_dict[(ii, jj)] or grid[ii][jj] + d < d_dict[(ii, jj)]:
                     # push neighbor to pq
                     heapq.heappush(pq, (grid[ii][jj] + d, ii, jj))
@@ -76,7 +76,6 @@ def solution():
                     d_dict[(ii, jj)] = grid[ii][jj] + d
 
     return d_grid[n-1][m-1]
-
 
 if __name__ == '__main__':
     #solution()

@@ -178,7 +178,7 @@ def solution():
             #print ("data ",data)
             #print (f'literal_value {literal_value}')
 
-            sum_versions += version
+            sum_versions += versio
 
             return sum_versions
 
